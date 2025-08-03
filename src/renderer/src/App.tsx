@@ -154,25 +154,40 @@ const handleCapture = async () => {
 
   const handleAnalyze = async () => {
     setAppState('analyzing');
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      const form = new FormData();
+      form.append('gender', formData.gender);
+      form.append('age',   String(formData.age));
 
-    const hazScore = parseFloat((-2 + Math.random() * 4).toFixed(2));
-    let nutritionStatus: AnalysisResult['nutritionStatus'] = 'normal';
-    if (hazScore < -3) nutritionStatus = 'severely_stunted';
-    else if (hazScore < -2) nutritionStatus = 'stunted';
-    else if (hazScore > 2) nutritionStatus = 'tall';
+      const res = await fetch('http://127.0.0.1:8000/analyze', {
+        method: 'POST',
+        body:   form,
+      });
+      if (!res.ok) throw new Error('Analysis failed');
+
+      const { height, haz, weight } = await res.json();
+
+      let nutritionStatus: AnalysisResult['nutritionStatus'] = 'normal';
+    if (haz < -3) nutritionStatus = 'severely_stunted';
+    else if (haz < -2) nutritionStatus = 'stunted';
+    else if (haz > 2) nutritionStatus = 'tall';
 
     setAnalysisResult({
-      id: formData.id,
-      name: formData.name,
-      age: formData.age,
-      gender: formData.gender,
-      height: Math.round(65 + Math.random() * 25),
-      weight: Math.round(8 + Math.random() * 7),
-      hazScore,
+      id:            formData.id,
+      name:          formData.name,
+      age:           formData.age,
+      gender:        formData.gender,
+      height,
+      weight,
+      hazScore:      haz,
       nutritionStatus,
     });
     setAppState('results');
+    
+    } catch (error) {
+      console.error(error);
+      setAppState('captured');
+    }
   };
 
   const handleNewAnalysis = () => {

@@ -136,15 +136,15 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ result, onNewAnalysis, 
           </div>
 
           <div className="row-start-4">
-            <InfoItem icon={Ruler} label="Height" value={`${result.height} cm`} />
+            <InfoItem icon={Ruler} label="Height" value={`${result.height.toFixed(2)} cm`} />
           </div>
 
           <div className="row-start-4 col-start-2">
-            <InfoItem icon={Scale} label="Weight" value={`${result.weight} kg`} />
+            <InfoItem icon={Scale} label="Weight" value={`${result.weight.toFixed(2)} kg`} />
           </div>
 
           <div className="row-start-5 col-span-2">
-            <InfoItem icon={ActivityIcon} label={"Skor HAZ"} value={result.hazScore.toFixed(2)} />
+            <InfoItem icon={ActivityIcon} label={"Skor HAZ"} value={result.hazScore} />
           </div>
 
         </div>
