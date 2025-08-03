@@ -166,6 +166,7 @@ const handleCapture = async () => {
       if (!res.ok) throw new Error('Analysis failed');
 
       const { height, haz, weight } = await res.json();
+      console.log(haz)
 
       let nutritionStatus: AnalysisResult['nutritionStatus'] = 'normal';
     if (haz < -3) nutritionStatus = 'severely_stunted';
@@ -175,7 +176,7 @@ const handleCapture = async () => {
     setAnalysisResult({
       id:            formData.id,
       name:          formData.name,
-      age:           formData.age,
+      age:           formData.age, 
       gender:        formData.gender,
       height,
       weight,
@@ -183,7 +184,7 @@ const handleCapture = async () => {
       nutritionStatus,
     });
     setAppState('results');
-    
+
     } catch (error) {
       console.error(error);
       setAppState('captured');

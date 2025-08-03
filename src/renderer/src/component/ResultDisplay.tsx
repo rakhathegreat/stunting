@@ -144,7 +144,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ result, onNewAnalysis, 
           </div>
 
           <div className="row-start-5 col-span-2">
-            <InfoItem icon={ActivityIcon} label={"Skor HAZ"} value={result.hazScore} />
+            <InfoItem icon={ActivityIcon} label={"Skor HAZ"} value={result.hazScore.toFixed(2)} />
           </div>
 
         </div>
